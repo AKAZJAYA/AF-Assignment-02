@@ -29,6 +29,7 @@ const Register = () => {
   const controls = useAnimation();
 
   const { isAuthenticated, status, error } = useSelector((state) => state.auth);
+  const { darkMode } = useSelector((state) => state.theme); // Get dark mode state
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -185,13 +186,21 @@ const Register = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto py-10 px-4 relative overflow-hidden">
+    <div
+      className={`max-w-md mx-auto py-10 px-4 relative overflow-hidden ${
+        darkMode ? "text-white" : "text-gray-900"
+      }`}
+    >
       {/* Background particles */}
       <div className="fixed inset-0 -z-10 overflow-hidden opacity-10 pointer-events-none">
         {particles.map((particle) => (
           <motion.div
             key={particle.id}
-            className="absolute rounded-full bg-gradient-to-br from-indigo-500 to-cyan-400"
+            className={`absolute rounded-full ${
+              darkMode
+                ? "bg-gradient-to-br from-indigo-400 to-cyan-300"
+                : "bg-gradient-to-br from-indigo-500 to-cyan-400"
+            }`}
             initial={{
               left: `${particle.x}%`,
               top: `${particle.y}%`,
@@ -227,10 +236,14 @@ const Register = () => {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="bg-white dark:bg-gray-800 rounded-2xl p-10 shadow-2xl flex flex-col items-center"
+              className={`${
+                darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+              } rounded-2xl p-10 shadow-2xl flex flex-col items-center`}
             >
               <motion.div
-                className="w-20 h-20 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center mb-6"
+                className={`w-20 h-20 rounded-full ${
+                  darkMode ? "bg-green-900" : "bg-green-100"
+                } flex items-center justify-center mb-6`}
                 initial={{ scale: 0 }}
                 animate={{
                   scale: [0, 1.2, 1],
@@ -238,12 +251,20 @@ const Register = () => {
                 }}
                 transition={{ duration: 0.5 }}
               >
-                <FiCheck className="text-4xl text-green-500 dark:text-green-300" />
+                <FiCheck
+                  className={`text-4xl ${
+                    darkMode ? "text-green-300" : "text-green-500"
+                  }`}
+                />
               </motion.div>
               <h2 className="text-2xl font-bold mb-2">
                 Registration Successful!
               </h2>
-              <p className="text-gray-600 dark:text-gray-300 text-center">
+              <p
+                className={`${
+                  darkMode ? "text-gray-300" : "text-gray-600"
+                } text-center`}
+              >
                 Your account has been created successfully. Redirecting you
                 now...
               </p>
@@ -257,11 +278,17 @@ const Register = () => {
           initial={{ opacity: 0, y: 30, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="bg-white dark:bg-gray-800 rounded-xl shadow-xl overflow-hidden"
+          className={`${
+            darkMode ? "bg-gray-800" : "bg-white"
+          } rounded-xl shadow-xl overflow-hidden transition-colors duration-300`}
         >
           {/* Card glow effects */}
           <motion.div
-            className="absolute inset-0 -z-10 bg-gradient-to-r from-indigo-500/20 to-cyan-400/20 blur-xl"
+            className={`absolute inset-0 -z-10 ${
+              darkMode
+                ? "bg-gradient-to-r from-indigo-600/20 to-cyan-500/20"
+                : "bg-gradient-to-r from-indigo-500/20 to-cyan-400/20"
+            } blur-xl`}
             animate={{
               opacity: [0.5, 0.8, 0.5],
               scale: [0.8, 1, 0.8],
@@ -310,7 +337,7 @@ const Register = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-gray-600 dark:text-gray-300"
+                className={`${darkMode ? "text-gray-300" : "text-gray-600"}`}
               >
                 Join Country Explorer today
               </motion.p>
@@ -323,7 +350,11 @@ const Register = () => {
                   initial={{ opacity: 0, y: -10, height: 0 }}
                   animate={{ opacity: 1, y: 0, height: "auto" }}
                   exit={{ opacity: 0, y: -10, height: 0 }}
-                  className="mb-6 p-4 bg-red-100 dark:bg-red-900/30 rounded-lg border-l-4 border-red-500 flex items-start"
+                  className={`mb-6 p-4 ${
+                    darkMode
+                      ? "bg-red-900/30 border-red-700"
+                      : "bg-red-100 border-red-500"
+                  } rounded-lg border-l-4 flex items-start`}
                 >
                   <motion.div
                     animate={{ rotate: [0, 5, -5, 0] }}
@@ -333,10 +364,18 @@ const Register = () => {
                     <FiAlertCircle size={20} />
                   </motion.div>
                   <div className="flex-1">
-                    <h3 className="text-sm font-medium text-red-800 dark:text-red-300">
+                    <h3
+                      className={`text-sm font-medium ${
+                        darkMode ? "text-red-300" : "text-red-800"
+                      }`}
+                    >
                       Registration Error
                     </h3>
-                    <p className="text-sm text-red-700 dark:text-red-200 mt-1">
+                    <p
+                      className={`text-sm ${
+                        darkMode ? "text-red-200" : "text-red-700"
+                      } mt-1`}
+                    >
                       {error}
                     </p>
                   </div>
@@ -344,7 +383,9 @@ const Register = () => {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onClick={() => dispatch(clearError())}
-                    className="text-red-500 dark:text-red-300 ml-2"
+                    className={`${
+                      darkMode ? "text-red-300" : "text-red-500"
+                    } ml-2`}
                   >
                     <FiX size={18} />
                   </motion.button>
@@ -364,7 +405,9 @@ const Register = () => {
                 >
                   <label
                     htmlFor="username"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    className={`block text-sm font-medium ${
+                      darkMode ? "text-gray-300" : "text-gray-700"
+                    } mb-1`}
                   >
                     Username
                   </label>
@@ -375,6 +418,8 @@ const Register = () => {
                           color:
                             activeField === "username" || formData.username
                               ? "#6366f1"
+                              : darkMode
+                              ? "#9ca3af"
                               : "#9ca3af",
                         }}
                       >
@@ -386,11 +431,16 @@ const Register = () => {
                       name="username"
                       type="text"
                       autoComplete="username"
+                      placeholder="Enter your username"
                       value={formData.username}
                       onChange={handleChange}
                       onFocus={() => handleFocus("username")}
                       onBlur={handleBlur}
-                      className={`input pl-10 pr-4 py-3 w-full transition-all duration-300 border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-400/50 group-hover:border-indigo-500 dark:group-hover:border-indigo-400
+                      className={`input pl-10 pr-4 py-3 w-full transition-all duration-300 ${
+                        darkMode
+                          ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                          : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                      } rounded-md focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-400/50 group-hover:border-indigo-500 dark:group-hover:border-indigo-400
                       ${
                         formErrors.username
                           ? "border-red-500 focus:ring-red-500/50 dark:focus:ring-red-400/50"
@@ -434,7 +484,9 @@ const Register = () => {
                 >
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    className={`block text-sm font-medium ${
+                      darkMode ? "text-gray-300" : "text-gray-700"
+                    } mb-1`}
                   >
                     Email address
                   </label>
@@ -445,6 +497,8 @@ const Register = () => {
                           color:
                             activeField === "email" || formData.email
                               ? "#6366f1"
+                              : darkMode
+                              ? "#9ca3af"
                               : "#9ca3af",
                         }}
                       >
@@ -456,11 +510,16 @@ const Register = () => {
                       name="email"
                       type="email"
                       autoComplete="email"
+                      placeholder="Enter your email"
                       value={formData.email}
                       onChange={handleChange}
                       onFocus={() => handleFocus("email")}
                       onBlur={handleBlur}
-                      className={`input pl-10 pr-4 py-3 w-full transition-all duration-300 border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-400/50 group-hover:border-indigo-500 dark:group-hover:border-indigo-400
+                      className={`input pl-10 pr-4 py-3 w-full transition-all duration-300 ${
+                        darkMode
+                          ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                          : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                      } rounded-md focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-400/50 group-hover:border-indigo-500 dark:group-hover:border-indigo-400
                       ${
                         formErrors.email
                           ? "border-red-500 focus:ring-red-500/50 dark:focus:ring-red-400/50"
@@ -504,7 +563,9 @@ const Register = () => {
                 >
                   <label
                     htmlFor="password"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    className={`block text-sm font-medium ${
+                      darkMode ? "text-gray-300" : "text-gray-700"
+                    } mb-1`}
                   >
                     Password
                   </label>
@@ -515,6 +576,8 @@ const Register = () => {
                           color:
                             activeField === "password" || formData.password
                               ? "#6366f1"
+                              : darkMode
+                              ? "#9ca3af"
                               : "#9ca3af",
                         }}
                       >
@@ -525,12 +588,17 @@ const Register = () => {
                       id="password"
                       name="password"
                       type="password"
+                      placeholder="**********"
                       autoComplete="new-password"
                       value={formData.password}
                       onChange={handleChange}
                       onFocus={() => handleFocus("password")}
                       onBlur={handleBlur}
-                      className={`input pl-10 pr-4 py-3 w-full transition-all duration-300 border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-400/50 group-hover:border-indigo-500 dark:group-hover:border-indigo-400
+                      className={`input pl-10 pr-4 py-3 w-full transition-all duration-300 ${
+                        darkMode
+                          ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                          : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                      } rounded-md focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-400/50 group-hover:border-indigo-500 dark:group-hover:border-indigo-400
                       ${
                         formErrors.password
                           ? "border-red-500 focus:ring-red-500/50 dark:focus:ring-red-400/50"
@@ -559,7 +627,11 @@ const Register = () => {
                       className="mt-2"
                     >
                       <div className="flex items-center gap-2">
-                        <div className="h-1.5 flex-1 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                        <div
+                          className={`h-1.5 flex-1 rounded-full ${
+                            darkMode ? "bg-gray-700" : "bg-gray-200"
+                          } overflow-hidden`}
+                        >
                           <motion.div
                             className={`h-full ${getStrengthColor(
                               passwordStrength
@@ -576,13 +648,19 @@ const Register = () => {
                         </span>
                       </div>
 
-                      <ul className="text-xs text-gray-500 dark:text-gray-400 mt-1.5 space-y-1">
+                      <ul
+                        className={`text-xs ${
+                          darkMode ? "text-gray-400" : "text-gray-500"
+                        } mt-1.5 space-y-1`}
+                      >
                         <li className="flex items-center">
                           <div
                             className={`w-3 h-3 rounded-full mr-1.5 ${
                               formData.password.length >= 6
                                 ? "bg-green-500"
-                                : "bg-gray-300 dark:bg-gray-600"
+                                : darkMode
+                                ? "bg-gray-600"
+                                : "bg-gray-300"
                             }`}
                           />
                           At least 6 characters
@@ -592,7 +670,9 @@ const Register = () => {
                             className={`w-3 h-3 rounded-full mr-1.5 ${
                               /[A-Z]/.test(formData.password)
                                 ? "bg-green-500"
-                                : "bg-gray-300 dark:bg-gray-600"
+                                : darkMode
+                                ? "bg-gray-600"
+                                : "bg-gray-300"
                             }`}
                           />
                           At least 1 uppercase letter
@@ -602,7 +682,9 @@ const Register = () => {
                             className={`w-3 h-3 rounded-full mr-1.5 ${
                               /[0-9]/.test(formData.password)
                                 ? "bg-green-500"
-                                : "bg-gray-300 dark:bg-gray-600"
+                                : darkMode
+                                ? "bg-gray-600"
+                                : "bg-gray-300"
                             }`}
                           />
                           At least 1 number
@@ -635,7 +717,9 @@ const Register = () => {
                 >
                   <label
                     htmlFor="confirmPassword"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    className={`block text-sm font-medium ${
+                      darkMode ? "text-gray-300" : "text-gray-700"
+                    } mb-1`}
                   >
                     Confirm password
                   </label>
@@ -647,6 +731,8 @@ const Register = () => {
                             activeField === "confirmPassword" ||
                             formData.confirmPassword
                               ? "#6366f1"
+                              : darkMode
+                              ? "#9ca3af"
                               : "#9ca3af",
                         }}
                       >
@@ -657,12 +743,17 @@ const Register = () => {
                       id="confirmPassword"
                       name="confirmPassword"
                       type="password"
+                      placeholder="**********"
                       autoComplete="new-password"
                       value={formData.confirmPassword}
                       onChange={handleChange}
                       onFocus={() => handleFocus("confirmPassword")}
                       onBlur={handleBlur}
-                      className={`input pl-10 pr-4 py-3 w-full transition-all duration-300 border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-400/50 group-hover:border-indigo-500 dark:group-hover:border-indigo-400
+                      className={`input pl-10 pr-4 py-3 w-full transition-all duration-300 ${
+                        darkMode
+                          ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                          : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                      } rounded-md focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-400/50 group-hover:border-indigo-500 dark:group-hover:border-indigo-400
                       ${
                         formErrors.confirmPassword
                           ? "border-red-500 focus:ring-red-500/50 dark:focus:ring-red-400/50"
@@ -778,15 +869,19 @@ const Register = () => {
               transition={{ delay: 0.8 }}
               className="mt-6 text-center"
             >
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className={`${darkMode ? "text-gray-300" : "text-gray-600"}`}>
                 Already have an account?{" "}
                 <Link
                   to="/login"
-                  className="text-indigo-600 dark:text-indigo-400 font-medium relative group"
+                  className={`${
+                    darkMode ? "text-indigo-400" : "text-indigo-600"
+                  } font-medium relative group`}
                 >
                   <span className="relative z-10">Log in</span>
                   <motion.span
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 dark:bg-indigo-400"
+                    className={`absolute bottom-0 left-0 right-0 h-0.5 ${
+                      darkMode ? "bg-indigo-400" : "bg-indigo-600"
+                    }`}
                     initial={{ width: 0 }}
                     whileHover={{ width: "100%" }}
                     transition={{ duration: 0.2 }}

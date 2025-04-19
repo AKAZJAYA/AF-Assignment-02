@@ -25,6 +25,7 @@ const Login = () => {
   const controls = useAnimation();
 
   const { isAuthenticated, status, error } = useSelector((state) => state.auth);
+  const { darkMode } = useSelector((state) => state.theme); // Get dark mode state
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -131,6 +132,12 @@ const Login = () => {
     }%, rgba(99, 102, 241, 0.3) 0%, rgba(255, 255, 255, 0) 50%)`,
   };
 
+  const darkGradient = {
+    background: `radial-gradient(circle at ${mousePosition.x * 100}% ${
+      mousePosition.y * 100
+    }%, rgba(99, 102, 241, 0.2) 0%, rgba(30, 30, 30, 0) 50%)`,
+  };
+
   const successVariants = {
     hidden: { scale: 0.8, opacity: 0 },
     visible: {
@@ -164,12 +171,18 @@ const Login = () => {
     }));
 
   return (
-    <div className="max-w-4xl mx-auto py-10 relative overflow-hidden">
+    <div
+      className={`max-w-4xl mx-auto py-10 relative overflow-hidden ${
+        darkMode ? "text-white" : "text-gray-900"
+      }`}
+    >
       <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none">
         {floatingIcons.map((icon) => (
           <motion.div
             key={icon.id}
-            className="absolute text-indigo-500"
+            className={`absolute ${
+              darkMode ? "text-indigo-300" : "text-indigo-500"
+            }`}
             initial={{ x: `${icon.x}%`, y: `${icon.y}%` }}
             animate={{
               y: [`${icon.y}%`, `${icon.y + 20}%`, `${icon.y}%`],
@@ -201,7 +214,9 @@ const Login = () => {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="bg-white rounded-full p-10 shadow-2xl flex flex-col items-center"
+              className={`${
+                darkMode ? "bg-gray-800" : "bg-white"
+              } rounded-full p-10 shadow-2xl flex flex-col items-center`}
             >
               <motion.div
                 className="text-5xl text-green-500 mb-4"
@@ -214,8 +229,16 @@ const Login = () => {
               >
                 ✓
               </motion.div>
-              <h2 className="text-2xl font-bold">Login Successful!</h2>
-              <p className="text-gray-600">Redirecting you now...</p>
+              <h2
+                className={`text-2xl font-bold ${
+                  darkMode ? "text-white" : "text-gray-800"
+                }`}
+              >
+                Login Successful!
+              </h2>
+              <p className={darkMode ? "text-gray-300" : "text-gray-600"}>
+                Redirecting you now...
+              </p>
             </motion.div>
           </motion.div>
         )}
@@ -236,7 +259,7 @@ const Login = () => {
         >
           <div
             className="absolute inset-0 pointer-events-none z-10 opacity-0 hover:opacity-100 transition-opacity duration-300"
-            style={gradient}
+            style={darkMode ? darkGradient : gradient}
           />
 
           <div className="hidden md:block relative bg-gradient-to-br from-indigo-600 to-cyan-500 p-12">
@@ -373,7 +396,11 @@ const Login = () => {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-gray-800 p-8 md:p-12 relative">
+          <div
+            className={`${
+              darkMode ? "bg-gray-800" : "bg-white"
+            } p-8 md:p-12 relative transition-colors duration-300`}
+          >
             <div className="absolute top-0 right-0 border-t-8 border-r-8 border-indigo-600/20 dark:border-indigo-400/20 w-12 h-12"></div>
             <div className="absolute bottom-0 left-0 border-b-8 border-l-8 border-indigo-600/20 dark:border-indigo-400/20 w-12 h-12"></div>
 
@@ -403,7 +430,9 @@ const Login = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="text-gray-600 dark:text-gray-300 mt-1"
+                className={`${
+                  darkMode ? "text-gray-300" : "text-gray-600"
+                } mt-1`}
               >
                 Welcome back to Country Explorer
               </motion.p>
@@ -416,7 +445,11 @@ const Login = () => {
                   animate={{ opacity: 1, y: 0, height: "auto" }}
                   exit={{ opacity: 0, y: -10, height: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="mb-6 p-3 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded-md flex items-start relative overflow-hidden"
+                  className={`mb-6 p-3 ${
+                    darkMode
+                      ? "bg-red-900/30 text-red-300"
+                      : "bg-red-100 text-red-700"
+                  } rounded-md flex items-start relative overflow-hidden`}
                 >
                   <motion.div
                     className="absolute inset-0 bg-red-500/10"
@@ -451,7 +484,9 @@ const Login = () => {
                 >
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    className={`block text-sm font-medium ${
+                      darkMode ? "text-gray-300" : "text-gray-700"
+                    } mb-1`}
                   >
                     Email address
                   </label>
@@ -459,7 +494,11 @@ const Login = () => {
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <motion.div
                         animate={{
-                          color: formData.email ? "#6366f1" : "#9ca3af",
+                          color: formData.email
+                            ? "#6366f1"
+                            : darkMode
+                            ? "#9ca3af"
+                            : "#9ca3af",
                         }}
                       >
                         <FiMail />
@@ -472,7 +511,11 @@ const Login = () => {
                       autoComplete="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`input pl-10 pr-4 py-3 w-full transition-all duration-300 border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-400/50 group-hover:border-indigo-500 dark:group-hover:border-indigo-400
+                      className={`input pl-10 pr-4 py-3 w-full transition-all duration-300 ${
+                        darkMode
+                          ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                          : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                      } rounded-md focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-400/50 group-hover:border-indigo-500 dark:group-hover:border-indigo-400
                       ${
                         formErrors.email
                           ? "border-red-500 focus:ring-red-500/50 dark:focus:ring-red-400/50"
@@ -509,7 +552,9 @@ const Login = () => {
                 >
                   <label
                     htmlFor="password"
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                    className={`block text-sm font-medium ${
+                      darkMode ? "text-gray-300" : "text-gray-700"
+                    } mb-1`}
                   >
                     Password
                   </label>
@@ -517,7 +562,11 @@ const Login = () => {
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <motion.div
                         animate={{
-                          color: formData.password ? "#6366f1" : "#9ca3af",
+                          color: formData.password
+                            ? "#6366f1"
+                            : darkMode
+                            ? "#9ca3af"
+                            : "#9ca3af",
                         }}
                       >
                         <FiLock />
@@ -530,7 +579,11 @@ const Login = () => {
                       autoComplete="current-password"
                       value={formData.password}
                       onChange={handleChange}
-                      className={`input pl-10 pr-4 py-3 w-full transition-all duration-300 border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-400/50 group-hover:border-indigo-500 dark:group-hover:border-indigo-400
+                      className={`input pl-10 pr-4 py-3 w-full transition-all duration-300 ${
+                        darkMode
+                          ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400"
+                          : "bg-white border-gray-300 text-gray-900 placeholder-gray-500"
+                      } rounded-md focus:ring-2 focus:ring-indigo-500/50 dark:focus:ring-indigo-400/50 group-hover:border-indigo-500 dark:group-hover:border-indigo-400
                       ${
                         formErrors.password
                           ? "border-red-500 focus:ring-red-500/50 dark:focus:ring-red-400/50"
@@ -620,15 +673,19 @@ const Login = () => {
               transition={{ delay: 0.7 }}
               className="mt-8 text-center"
             >
-              <p className="text-gray-600 dark:text-gray-300">
+              <p className={darkMode ? "text-gray-300" : "text-gray-600"}>
                 Don't have an account?{" "}
                 <Link
                   to="/register"
-                  className="relative inline-block text-indigo-600 dark:text-indigo-400 font-medium group"
+                  className={`relative inline-block ${
+                    darkMode ? "text-indigo-400" : "text-indigo-600"
+                  } font-medium group`}
                 >
                   <span className="relative z-10">Register</span>
                   <motion.span
-                    className="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-600 dark:bg-indigo-400 rounded"
+                    className={`absolute bottom-0 left-0 w-full h-0.5 ${
+                      darkMode ? "bg-indigo-400" : "bg-indigo-600"
+                    } rounded`}
                     initial={{ width: 0 }}
                     whileHover={{ width: "100%" }}
                     transition={{ duration: 0.3 }}
