@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-const API_URL = 'http://localhost:5000/api/auth'
+const API_URL = 'http://localhost:5050/api/auth'
 
 // Set up axios with token
 const setAuthToken = (token) => {
@@ -55,7 +55,7 @@ export const loadUser = createAsyncThunk(
     setAuthToken(token)
     
     try {
-      const response = await axios.get('http://localhost:5000/api/users/profile')
+      const response = await axios.get('http://localhost:5050/api/users/profile')
       return response.data
     } catch (error) {
       // Clear token on error

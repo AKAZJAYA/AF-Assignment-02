@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
-const API_URL = 'http://localhost:5000/api/users'
+const API_URL = 'http://localhost:5050/api/users'
 
 // Async thunks
 export const fetchFavorites = createAsyncThunk(
