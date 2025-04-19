@@ -213,7 +213,7 @@ const Navbar = () => {
                   >
                     <Link
                       to={link.path}
-                      className={`block px-3 py-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-800 flex items-center ${
+                      className={`block px-3 py-2 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-800 items-center ${
                         location.pathname === link.path
                           ? "text-indigo-600 dark:text-indigo-400 font-medium"
                           : ""
