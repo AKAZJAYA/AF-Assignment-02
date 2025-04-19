@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const Country = require('../models/Country');
-const auth = require('../middleware/auth');
+const auth = require('../middleware/authMiddleware');
 
 // Get all countries
 router.get('/', async (req, res) => {

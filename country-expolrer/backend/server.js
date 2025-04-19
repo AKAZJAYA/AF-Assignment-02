@@ -1,10 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const dotenv = require('env');
-const countriesRoutes = require('./routes/countries');
-const userRoutes = require('./routes/users');
-const authRoutes = require('./routes/auth');
+const dotenv = require('dotenv');
+const countriesRoutes = require('./routes/countryRoutes');
+const userRoutes = require('./routes/userRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 dotenv.config();
 
